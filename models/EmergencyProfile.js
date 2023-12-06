@@ -1,6 +1,7 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
-const EmergencyMedicalProfileSchema = new mongoose.Schema({
+
+const EmergencyMedicalProfileSchema = mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // Reference to the user
   profilePicture: String,
   name: String,
@@ -20,4 +21,6 @@ const EmergencyMedicalProfileSchema = new mongoose.Schema({
 });
 
 
-module.exports = mongoose.model("EmergencyProfile", EmergencyMedicalProfileSchema);
+const EmergencyMedicalProfile = mongoose.model("EmergencyProfile", EmergencyMedicalProfileSchema);
+
+export default EmergencyMedicalProfile;

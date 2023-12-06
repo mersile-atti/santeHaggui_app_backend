@@ -6,7 +6,7 @@ import User from '../models/userModel.js'
 // route POST /api/users/auth
 //@ccess Public
 const authUser = asyncHandler(async (req, res) => {
-    const { email, phoneNumber, password, uim } = req.body;
+    const { email, phoneNumber, password } = req.body;
 
     const user = await User.findOne({ 
         $or: [{ email }, { phoneNumber }]
@@ -35,7 +35,6 @@ const authUser = asyncHandler(async (req, res) => {
 const RegisterUser = asyncHandler(async (req, res) => {
     const { username, email, phoneNumber, password } = req.body;
 
-    //const user = await User.findOne({ email });
     
     const userExists = await User.findOne({ 
         $or: [{ email }, { phoneNumber }]
@@ -111,7 +110,6 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 
         const updatedUser = await user.save();
 
-        //generateToken(res, updatedUser._id);
 
         res.status(200).json({
             _id: updatedUser._id,
