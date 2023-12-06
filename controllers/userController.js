@@ -6,7 +6,7 @@ import User from '../models/userModel.js'
 // route POST /api/users/auth
 //@ccess Public
 const authUser = asyncHandler(async (req, res) => {
-    const { email, phoneNumber, password } = req.body;
+    const { email, phoneNumber, password, uim } = req.body;
 
     const user = await User.findOne({ 
         $or: [{ email }, { phoneNumber }]
@@ -19,6 +19,7 @@ const authUser = asyncHandler(async (req, res) => {
             username: user.username,
             email: user.email,
             phoneNumber: user.phoneNumber,
+            uim: user.uim,
         }); 
     } else {
         res.status(401);
