@@ -19,7 +19,7 @@ const authUser = asyncHandler(async (req, res) => {
             username: user.username,
             email: user.email,
             phoneNumber: user.phoneNumber,
-            uim: user.uim,
+            umi: user.umi,
         }); 
     } else {
         res.status(401);
