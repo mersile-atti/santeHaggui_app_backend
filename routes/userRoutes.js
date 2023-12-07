@@ -5,7 +5,7 @@ import {  authUser,
     logOutUser,
     getUserProfile,
     updateUserProfile } from '../controllers/userController.js';
-import emergencyProfileRouter from './emergencyProfileRoute.js';
+import { createOrUpdateEmergencyProfile  } from '../controllers/emergencyProfileController.js';
 
 import { protect } from '../middleware/authMiddleware.js';
 
@@ -15,7 +15,7 @@ router.post('/', RegisterUser)
 router.post('/auth', authUser)
 router.post('/logout', logOutUser)
 router.route('/profile').get(protect, getUserProfile).put(protect, updateUserProfile)
-router.use('/profile/emergency-profile', emergencyProfileRouter);
+router.post('/profile/emergency-profile', protect, createOrUpdateEmergencyProfile);
 
 
 
