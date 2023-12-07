@@ -9,7 +9,7 @@ import User from '../models/userModel.js';
 const createOrUpdateEmergencyProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
   if (user) {
-    // Check if the emergency profile exists
+    // Check if the emergency profile already exists using exists()
     const emergencyProfileExists = await EmergencyMedicalProfile.exists({ user: req.user._id });
 
     if (emergencyProfileExists) {
@@ -35,6 +35,7 @@ const createOrUpdateEmergencyProfile = asyncHandler(async (req, res) => {
     throw new Error('User not found');
   }
 });
+
 
 
 export { createOrUpdateEmergencyProfile };
