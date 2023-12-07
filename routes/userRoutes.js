@@ -15,7 +15,7 @@ router.post('/', RegisterUser)
 router.post('/auth', authUser)
 router.post('/logout', logOutUser)
 router.route('/profile').get(protect, getUserProfile).put(protect, updateUserProfile)
-router.post('/profile/emergency-profile', protect, createOrUpdateEmergencyProfile);
+router.post('/profile/emergency-profile', createOrUpdateEmergencyProfile);
 
 
 
