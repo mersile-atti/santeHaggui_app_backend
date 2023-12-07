@@ -15,7 +15,6 @@ const createOrUpdateEmergencyProfile = asyncHandler(async (req, res) => {
     if (emergencyProfileExists) {
       // Update the existing emergency profile
       const updatedEmergencyProfile = await EmergencyMedicalProfile.findOneAndUpdate(
-        { user: req.user._id },
         { $set: req.body },
         { new: true }
       );
@@ -24,7 +23,6 @@ const createOrUpdateEmergencyProfile = asyncHandler(async (req, res) => {
     } else {
       // Create a new emergency profile
       const newEmergencyProfile = await EmergencyMedicalProfile.create({
-        user: req.user._id,
         ...req.body,
       });
 
