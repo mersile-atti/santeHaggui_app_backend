@@ -2,6 +2,7 @@
 import asyncHandler from 'express-async-handler';
 import EmergencyMedicalProfile from '../models/EmergencyProfile.js';
 import User from '../models/userModel.js';
+import generateToken from '../utils/generateToken.js';
 
 // @desc Create or update user's emergency profile
 // route POST /api/users/profile/emergency-profile
@@ -23,6 +24,7 @@ const createOrUpdateEmergencyProfile = asyncHandler(async (req, res) => {
         { new: true }
       );
 
+      generateToken(res, req.user._id);
 
       res.status(200).json({
          updatedEmergencyProfile,
@@ -34,6 +36,7 @@ const createOrUpdateEmergencyProfile = asyncHandler(async (req, res) => {
         ...req.body,
       });
 
+      generateToken(res, req.user._id);
 
       res.status(201).json({
         emergencyProfile: newEmergencyProfile,
