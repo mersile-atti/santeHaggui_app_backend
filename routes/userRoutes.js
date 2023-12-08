@@ -15,7 +15,7 @@ import { protect } from '../middleware/authMiddleware.js';
 router.post('/', RegisterUser)
 router.post('/auth', authUser)
 router.post('/logout', logOutUser)
-router.route('/profile').get(protect, getUserProfile).post(createUserEmeergencyProfile).put(updateUserEmergencyProfile)
+router.route('/profile').get(protect, getUserProfile).post(protect, createUserEmeergencyProfile).put(protect, updateUserEmergencyProfile)
 
 
 

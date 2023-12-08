@@ -88,7 +88,8 @@ const getUserProfile = asyncHandler(async (req, res) => {
         _id: req.user.id,
         username: req.user.username,
         email: req.user.email,
-        phoneNumber: req.user.phoneNumber
+        phoneNumber: req.user.phoneNumber,
+        token: generateToken(req.user._id),
     }
     
     res.status(200).json(user)

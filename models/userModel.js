@@ -21,6 +21,7 @@ const userSchema = mongoose.Schema({
   email: { type: String, lowercase: true, required: [true, 'Email is required'], unique: true },
   phoneNumber: { type: String, required: [true, 'Phone number is required'], unique: true },
   password: { type: String, required: [true, 'Password is required'], minlength: 8 },
+  token: { type: String, required: false }
 }, { timestamps: true });
 
 userSchema.pre('save', async function (next) {
