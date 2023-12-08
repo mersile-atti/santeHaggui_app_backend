@@ -1,6 +1,8 @@
 import asyncHandler from 'express-async-handler';
 import generateToken from '../utils/generateToken.js';
 import User from '../models/userModel.js'
+import EmergencyMedicalProfile from '../models/EmergencyProfile.js';
+
 
 // @desc Auth user/set token
 // route POST /api/users/auth
@@ -92,42 +94,73 @@ const getUserProfile = asyncHandler(async (req, res) => {
     res.status(200).json(user)
 }); 
 
-// @desc Update user profile
-// route PUT /api/users/profile
+// @desc Create user EmergencyProfile
+// route POST /api/users/profile
 //@ccess Private
-const updateUserProfile = asyncHandler(async (req, res) => {
+const createUserEmeergencyProfile = asyncHandler(async (req, res) => {
     
     const user = await User.findById(req.user._id);
 
-    if(user) {
-        user.username = req.body.username || user.username;
-        user.email = req.body.email || user.email;
-        user.phoneNumber = req.body.phoneNumber || user.phoneNumber;
 
-        if(req.body.password) {
-            user.password = req.body.password;
+    if(user) {
+        const emergencyProfileExists = await EmergencyMedicalProfile.exists({user: req.user._id });
+        if (!emergencyProfileExists) {
+            const newEmergencyProfile = await EmergencyMedicalProfile.create({
+                user: req.user._id,
+                ...req.body,
+            });
+            res.status(201).json({
+                _id: newEmergencyProfile._id,
+                user: newEmergencyProfile.user,
+                ...req.body,
+            }); 
+        } else {
+            res.status(404);
+            throw new Error('Emergency Profile Already Exist!');
         }
 
-        const updatedUser = await user.save();
+    } else {
+        res.status(404);
+        throw new Error('Emergency Profile Already Exist!');
+    }
+}); 
+
+// @desc Update user EmergencyProfile
+// route PUT /api/users/profile
+//@ccess Private
+const updateUserEmergencyProfile = asyncHandler(async (req, res) => {
+    
+    const user = await User.findById(req.user._id);
 
 
-        res.status(200).json({
-            _id: updatedUser._id,
-            username: updatedUser.username,
-            email: updatedUser.email,
-            phoneNumber: updatedUser.phoneNumber,
-        }); 
+    if(user) {
+        const emergencyProfileExists = await EmergencyMedicalProfile.exists({user: req.user._id });
+        if (emergencyProfileExists) {
+            const { _id, ...updateData } = req.body || {};
+            const updatedEmergencyProfile = await EmergencyMedicalProfile.findOneAndUpdate(
+                { user: req.user._id },
+                { $set: updateData },
+                { new: true }
+            );
+            res.status(200).json({
+                updatedEmergencyProfile
+            })
+        } else {
+            res.status(404);
+        throw new Error('User not found');
+        }
+        
     } else {
         res.status(404);
         throw new Error('User not found');
     }
 }); 
 
-
 export { 
     authUser,
     RegisterUser,
     logOutUser,
     getUserProfile,
-    updateUserProfile
+    createUserEmeergencyProfile,
+    updateUserEmergencyProfile
  };
