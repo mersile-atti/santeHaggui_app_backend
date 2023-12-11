@@ -4,10 +4,10 @@ import {  authUser,
     RegisterUser,
     logOutUser,
     getUserProfile,
-    createUserEmeergencyProfile,
+    createUserEmergencyProfile,
     updateUserEmergencyProfile } from '../controllers/userController.js';
 
-import { protect } from '../middleware/authMiddleware.js';
+import { validateToken } from '../middleware/validateTokenHandler.js';
 
 
 
@@ -15,7 +15,7 @@ import { protect } from '../middleware/authMiddleware.js';
 router.post('/', RegisterUser)
 router.post('/auth', authUser)
 router.post('/logout', logOutUser)
-router.route('/profile').get(protect, getUserProfile).post(protect, createUserEmeergencyProfile).put(protect, updateUserEmergencyProfile)
+router.route('/profile').get(validateToken, getUserProfile).post(validateToken, createUserEmergencyProfile).put(validateToken, updateUserEmergencyProfile)
 
 
 

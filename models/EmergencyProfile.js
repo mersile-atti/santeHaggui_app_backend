@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 
 const EmergencyMedicalProfileSchema = mongoose.Schema({
-  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // Reference to the user
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User'}, // Reference to the user
   profilePicture: String,
   name: String,
   birthday: Date,
